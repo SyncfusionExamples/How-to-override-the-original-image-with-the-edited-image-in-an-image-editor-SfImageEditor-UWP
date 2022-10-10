@@ -1,45 +1,42 @@
-# How-to-override-the-original-image-with-the-edited-image-in-an-image-editor-SfImageEditor-UWP
-By default, saved image from SfImageEditor will choose the path from Pictures directory of your environment as mentioned in below
+# How to override the original image with the edited image in SfImageEditor UWP
 
-N> The saved image will be added to default pictures library “C:\Users\<your name>\Pictures\Saved Pictures”.
+This repository contains sample to override the original image with the edited image in the [Syncfusion UWP Image Editor](https://help.syncfusion.com/uwp/image-editor/getting-started) control.
 
-This article explains how to override the existing original image with the edited image in [Syncfusion UWP SfImageEditor control](https://help.syncfusion.com/uwp/image-editor/getting-started) with follows.
+## Syncfusion controls
 
-Subscribe the ImageSaving event with initializing image editor control and get the stream from it and pass that to the below method to change the saved path location
+This project used the following Syncfusion control(s):
+* [SfImageEditor](https://www.syncfusion.com/uwp-ui-controls/image-editor)
 
-[C#]
+## Requirements to run the sample
 
-```
-public async void Save(Stream stream)
-        {
-            IRandomAccessStream randomAccessStream = stream.AsRandomAccessStream();
-            var wbm = new WriteableBitmap(600, 800);
-            await wbm.SetSourceAsync(randomAccessStream);
-            FolderPicker folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add(".jpg");
-            string PathName = Path.GetDirectoryName(FilePath);
-            string FileName = Path.GetFileName(FilePath);
-            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(@"" + PathName);
-            if (folder != null)
-            {
-                StorageFile file = await folder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
-                using (var storageStream = await file.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, storageStream);
-                    var pixelStream = wbm.PixelBuffer.AsStream();
-                    var pixels = new byte[pixelStream.Length];
-                    await pixelStream.ReadAsync(pixels, 0, pixels.Length);
-                    encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, (uint)wbm.PixelWidth, (uint)wbm.PixelHeight, 200, 200, pixels);
-                    await encoder.FlushAsync();
-                }
-            }
-        }
-```
+* [Visual Studio](https://visualstudio.microsoft.com/downloads/)
+* Windows 10 SDK
 
-## See also
+Refer to the following link for more details - [System Requirements](https://help.syncfusion.com/uwp/system-requirements)
 
-[How to save the image in SfImageEditor control programmatically](https://help.syncfusion.com/uwp/image-editor/saveandresetevents#using-code)
+## How to run the sample
 
-[How to customize the default toolbar in SfImageEditor UWP](https://help.syncfusion.com/uwp/image-editor/toolbarcustomization)
+1. Clone the sample and open it in Visual Studio.
 
-[How to enable the zooming in SfImageEditor UWP](https://help.syncfusion.com/uwp/image-editor/zooming#enable-zooming)
+   *Note: If you download the sample using the "Download ZIP" option, right-click it, select Properties, and then select Unblock.*
+   
+2. Register your license key in the App.cs file as demonstrated in the following code.
+
+		public App()
+		{
+			//Register Syncfusion license
+			Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR LICENSE KEY");
+
+			this.InitializeComponent();
+			this.Suspending += OnSuspending;
+		}
+		
+	Refer to this [link](https://help.syncfusion.com/uwp/licensing/overview) for more details.
+	
+3. Clean and build the application.
+
+4. Run the application.
+
+## License
+
+Syncfusion has no liability for any damage or consequence that may arise by using or viewing the samples. The samples are for demonstrative purposes, and if you choose to use or access the samples, you agree to not hold Syncfusion liable, in any form, for any damage that is related to use, for accessing, or viewing the samples. By accessing, viewing, or seeing the samples, you acknowledge and agree Syncfusion’s samples will not allow you seek injunctive relief in any form for any claim related to the sample. If you do not agree to this, do not view, access, utilize, or otherwise do anything with Syncfusion’s samples.
