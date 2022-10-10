@@ -1,6 +1,6 @@
 # How to override the original image with the edited image in SfImageEditor UWP
 
-This repository contains sample for how to override the original image with the edited image in the [Syncfusion UWP Image Editor](https://help.syncfusion.com/uwp/image-editor/getting-started) control.
+This repository contains sample to override the original image with the edited image in the [Syncfusion UWP Image Editor](https://help.syncfusion.com/uwp/image-editor/getting-started) control.
 
 ## Syncfusion controls
 
